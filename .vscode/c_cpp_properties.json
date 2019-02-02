@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\mazli\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
+                "C:\\Users\\mazli\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.1\\**",
+                "C:\\Users\\mazli\\Documents\\Arduino\\libraries",
+                "C:\\Users\\mazli\\Documents\\Arduino\\libraries\\Arduino-ST7789-Library"
+            ],
+            "forcedInclude": [],
+            "intelliSenseMode": "msvc-x64"
+        }
+    ],
+    "version": 4
+}
