@@ -20,8 +20,8 @@
 #define TFT_HEIGHT  240 // ST7789 240 x 240 and 240 x 240
 
 // For NodeMCU - use pin numbers in the form PIN_Dx where Dx is the NodeMCU pin designation/#define TFT_MISO 19
-#define TFT_MOSI 13
-#define TFT_SCLK 14
+#define TFT_MOSI 23
+#define TFT_SCLK 18
 // #define TFT_CS   15  // Chip select control pin
 #define TFT_DC    2  // Data Command control pin
 #define TFT_RST  -1  // Set TFT_RST to -1 if display RESET is connected to ESP32 board RST

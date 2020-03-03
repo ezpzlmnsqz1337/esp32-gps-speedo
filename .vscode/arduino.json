@@ -1,7 +1,8 @@
 {
-    "port": "COM17",
+    "port": "COM5",
     "board": "esp32:esp32:esp32doit-devkit-v1",
     "configuration": "FlashFreq=80,UploadSpeed=115200,DebugLevel=none",
-    "programmer": "USBasp",
-    "sketch": "ips_display.ino"
+    "programmer": "USBtinyISP",
+    "sketch": "esp32-ST7789-display.ino",
+    "output": "../build"
 }

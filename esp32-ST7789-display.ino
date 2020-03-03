@@ -1,12 +1,25 @@
 #include <TFT_eSPI.h>
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
+
 #include "bitmap.h" //(Bitmap generated with LCD Image Converter) https://sourceforge.net/projects/lcd-image-converter/
 TFT_eSPI tft = TFT_eSPI();   // Invoke library
 
 float p = 3.1415926;
+static const int RXPin = 12, TXPin = 13;
+static const uint32_t GPSBaud = 9600;
+
+// The TinyGPS++ object
+TinyGPSPlus gps;
+
+// The serial connection to the GPS device
+SoftwareSerial ss(RXPin, TXPin);
 
 void setup(void) {
   Serial.begin(115200);
+  ss.begin(GPSBaud);
   Serial.print("ST7789 TFT Bitmap Test");
+  Serial.print(F("Testing TinyGPS++ library v. ")); Serial.println(TinyGPSPlus::libraryVersion());
 
   tft.begin();     // initialize a ST7789 chip
   tft.setSwapBytes(true); // Swap the byte order for pushImage() - corrects endianness
@@ -15,37 +28,112 @@ void setup(void) {
 }
 
 void loop() {
-  drawwidthheihgt();
-  tft.pushImage(0,0,240,240,mercy);
-  delay(500);
-  tft.invertDisplay(true);
-  delay(500);
-  tft.invertDisplay(false);
-  delay(500);
-  testlines(TFT_RED);
-  delay(1000);
-  testdrawtext("FUCK YOU", TFT_WHITE);
-  delay(1000);
-  testfastlines(TFT_RED, TFT_BLUE);
-  delay(1000);
-  testdrawrects(TFT_GREEN);
-  delay(1000);
-  testfillrects(TFT_WHITE, TFT_MAGENTA);
-  delay(1000);
-  testdrawcircles(10, TFT_RED);
-  delay(1000);
-  testfillcircles(10, TFT_BLUE);
-  delay(1000);
-  testtriangles();
-  delay(1000);
-  testroundrects();
-  delay(1000);
-  tftPrintTest();
-  delay(1000);
-  mediabuttons();
-  delay(1000);
-  
+  // This sketch displays information every time a new sentence is correctly encoded.
+  while (ss.available() > 0)
+    if (gps.encode(ss.read()))
+      displayInfo();
+
+  if (millis() > 5000 && gps.charsProcessed() < 10)
+  {
+    Serial.println(F("No GPS detected: check wiring."));
+    while(true);
+  }
 }
+
+void displayInfo()
+{
+  tft.fillScreen(TFT_BLACK);
+  Serial.print(F("Location: ")); 
+  if (gps.location.isValid())
+  {
+    Serial.print(gps.location.lat(), 6);
+    Serial.print(F(","));
+    Serial.print(gps.location.lng(), 6);
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.print(F("  Date/Time: "));
+  if (gps.date.isValid())
+  {
+    Serial.print(gps.date.month());
+    Serial.print(F("/"));
+    Serial.print(gps.date.day());
+    Serial.print(F("/"));
+    Serial.print(gps.date.year());
+    //const int cDateSize = 50;
+    //char date[cDateSize]; 
+    //snprintf(date, cDateSize, "Date: %d.%d.%d", gps.date.day(), gps.date.month(), gps.date.year());
+    //drawText(date, TFT_WHITE);
+    
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+    //drawText("Invalid 1", TFT_WHITE);
+  }
+
+  Serial.print(F(" "));
+  if (gps.time.isValid())
+  {
+    if (gps.time.hour() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.hour());
+    Serial.print(F(":"));
+    if (gps.time.minute() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.minute());
+    Serial.print(F(":"));
+    if (gps.time.second() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.second());
+    Serial.print(F("."));
+    if (gps.time.centisecond() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.centisecond());
+    //const int cTimeSize = 50;
+    //char time[cTimeSize]; 
+    //snprintf(time, cTimeSize, "Time: %d:%d:%d", gps.time.hour(), gps.time.minute(), gps.time.second());
+    //drawText(time, TFT_WHITE);
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+    //drawText("Invalid 2: ", TFT_WHITE);
+  }
+
+  Serial.println();
+}
+
+  // drawwidthheihgt();
+  // tft.pushImage(0,0,240,240,mercy);
+  // delay(500);
+  // tft.invertDisplay(true);
+  // delay(500);
+  // tft.invertDisplay(false);
+  // delay(500);
+  // testlines(TFT_RED);
+  // delay(1000);
+  // drawText("FUCK YOU", TFT_WHITE);
+  // delay(1000);
+  // testfastlines(TFT_RED, TFT_BLUE);
+  // delay(1000);
+  // testdrawrects(TFT_GREEN);
+  // delay(1000);
+  // testfillrects(TFT_WHITE, TFT_MAGENTA);
+  // delay(1000);
+  // testdrawcircles(10, TFT_RED);
+  // delay(1000);
+  // testfillcircles(10, TFT_BLUE);
+  // delay(1000);
+  // testtriangles();
+  // delay(1000);
+  // testroundrects();
+  // delay(1000);
+  // tftPrintTest();
+  // delay(1000);
+  // mediabuttons();
+  // delay(1000);
+  
+//}
 
 void testlines(uint16_t color) {
   tft.fillScreen(TFT_BLACK);
@@ -81,7 +169,14 @@ void testlines(uint16_t color) {
   }
 }
 
-void testdrawtext(char *text, uint16_t color) {
+void drawNumber(uint8_t number, uint16_t color) {
+  tft.setCursor(0, 0);
+  tft.setTextColor(color);
+  tft.setTextWrap(true);
+  tft.print(number);
+}
+
+void drawText(char *text, uint16_t color) {
   tft.setCursor(0, 0);
   tft.setTextColor(color);
   tft.setTextWrap(true);
