@@ -1,8 +1,8 @@
 {
-    "port": "COM5",
+    "port": "COM3",
     "board": "esp32:esp32:esp32doit-devkit-v1",
     "configuration": "FlashFreq=80,UploadSpeed=115200,DebugLevel=none",
     "programmer": "USBtinyISP",
-    "sketch": "esp32-ST7789-display.ino",
+    "sketch": "esp32-gps-speedo.ino",
     "output": "../build"
 }

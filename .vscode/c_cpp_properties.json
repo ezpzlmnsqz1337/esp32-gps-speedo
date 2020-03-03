@@ -2,12 +2,10 @@
     "configurations": [
         {
             "name": "Win32",
-            "includePath": [
-                "C:\\Users\\z003khct\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
-                "C:\\Users\\z003khct\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.1\\**",
-                "C:\\UserData\\z003khct\\Documents\\Arduino\\libraries",
-                "C:\\UserData\\z003khct\\Documents\\Arduino\\libraries\\Arduino-ST7789-Library",
-                "C:\\Users\\z003khct\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**"
+            "includePath": [                
+                "C:\\Users\\mazel\\OneDrive\\Documents\\Arduino\\libraries\\**",
+                "C:\\Users\\mazel\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
+                "C:\\Users\\mazel\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**"
             ],
             "forcedInclude": [],
             "intelliSenseMode": "msvc-x64"
