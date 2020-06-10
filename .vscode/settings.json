@@ -12,5 +12,7 @@
         "utility": "cpp",
         "ios": "cpp",
         "xiosbase": "cpp"
-    }
+    },
+    "editor.formatOnSave": true,
+    "c-cpp-flylint.cppcheck.executable": "C:/Program Files/Cppcheck/cppcheck"
 }

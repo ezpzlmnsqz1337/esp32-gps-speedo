@@ -1,14 +1,14 @@
 {
     "configurations": [
         {
-            "name": "Win32",
-            "includePath": [                
-                "C:\\Users\\mazel\\OneDrive\\Documents\\Arduino\\libraries\\**",
-                "C:\\Users\\mazel\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
-                "C:\\Users\\mazel\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**"
+            "name": "esp32",
+            "includePath": [
+                "C:/Users/mazel/OneDrive/Documents/Arduino/libraries/**",
+                "C:/Users/mazel/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
+                "C:/Users/mazel/AppData/Local/Arduino15/packages/esp32/tools/**"
             ],
             "forcedInclude": [],
-            "intelliSenseMode": "msvc-x64"
+            "intelliSenseMode": "gcc-x86"
         }
     ],
     "version": 4

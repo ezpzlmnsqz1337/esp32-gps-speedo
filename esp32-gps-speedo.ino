@@ -4,7 +4,7 @@
 #define RXD2 16
 #define TXD2 17
 
-TFT_eSPI tft = TFT_eSPI();   // Invoke library
+TFT_eSPI tft = TFT_eSPI(); // Invoke library
 
 float p = 3.1415926;
 static const uint32_t GPSBaud = 9600;
@@ -14,36 +14,40 @@ TinyGPSPlus gps;
 
 // The serial connection to the GPS device
 
-void setup(void) {
+void setup(void)
+{
   Serial.begin(115200);
   Serial2.begin(GPSBaud, SERIAL_8N1, RXD2, TXD2);
   Serial.print("ST7789 TFT Bitmap Test");
-  Serial.print(F("Testing TinyGPS++ library v. ")); Serial.println(TinyGPSPlus::libraryVersion());
+  Serial.print(F("Testing TinyGPS++ library v. "));
+  Serial.println(TinyGPSPlus::libraryVersion());
 
-  tft.begin();     // initialize a ST7789 chip
+  tft.begin();            // initialize a ST7789 chip
   tft.setSwapBytes(true); // Swap the byte order for pushImage() - corrects endianness
 
   tft.fillScreen(TFT_BLACK);
 }
 
-void loop() {
+void loop()
+{
   // This sketch displays information every time a new sentence is correctly encoded.
   while (Serial2.available() > 0)
     if (gps.encode(Serial2.read()))
       displayInfo();
-      delay(32);
+  delay(1000);
 
   if (millis() > 5000 && gps.charsProcessed() < 10)
   {
     Serial.println(F("No GPS detected: check wiring."));
-    while(true);
+    while (true)
+      ;
   }
 }
 
 void displayInfo()
 {
   tft.fillScreen(TFT_BLACK);
-  Serial.print(F("Location: ")); 
+  Serial.print(F("Location: "));
   if (gps.location.isValid())
   {
     Serial.print(gps.location.lat(), 6);
@@ -64,10 +68,9 @@ void displayInfo()
     Serial.print(F("/"));
     Serial.print(gps.date.year());
     const int cDateSize = 50;
-    char date[cDateSize]; 
+    char date[cDateSize];
     snprintf(date, cDateSize, "Date: %d.%d.%d", gps.date.day(), gps.date.month(), gps.date.year());
     drawText(date, TFT_WHITE, 30, 40);
-    
   }
   else
   {
@@ -77,19 +80,23 @@ void displayInfo()
   Serial.print(F(" "));
   if (gps.time.isValid())
   {
-    if (gps.time.hour() < 10) Serial.print(F("0"));
+    if (gps.time.hour() < 10)
+      Serial.print(F("0"));
     Serial.print(gps.time.hour());
     Serial.print(F(":"));
-    if (gps.time.minute() < 10) Serial.print(F("0"));
+    if (gps.time.minute() < 10)
+      Serial.print(F("0"));
     Serial.print(gps.time.minute());
     Serial.print(F(":"));
-    if (gps.time.second() < 10) Serial.print(F("0"));
+    if (gps.time.second() < 10)
+      Serial.print(F("0"));
     Serial.print(gps.time.second());
     Serial.print(F("."));
-    if (gps.time.centisecond() < 10) Serial.print(F("0"));
+    if (gps.time.centisecond() < 10)
+      Serial.print(F("0"));
     Serial.print(gps.time.centisecond());
     const int cTimeSize = 50;
-    char time[cTimeSize]; 
+    char time[cTimeSize];
     snprintf(time, cTimeSize, "Time: %d:%d:%d", gps.time.hour(), gps.time.minute(), gps.time.second());
     drawText(time, TFT_WHITE, 30, 90);
   }
@@ -99,9 +106,10 @@ void displayInfo()
   }
 
   Serial.print(F("  Speed: "));
-  if(gps.speed.isValid()) {
+  if (gps.speed.isValid())
+  {
     const int cSpeedSize = 50;
-    char size[cSpeedSize]; 
+    char size[cSpeedSize];
     snprintf(size, cSpeedSize, "Speed: %f km/h", gps.speed.kmph());
     drawText(size, TFT_WHITE, 10, 150);
   }
@@ -111,9 +119,10 @@ void displayInfo()
   }
 
   Serial.print(F("  Satelites: "));
-  if(gps.satellites.isValid()) {
+  if (gps.satellites.isValid())
+  {
     const int cSatelitesSize = 50;
-    char satelites[cSatelitesSize]; 
+    char satelites[cSatelitesSize];
     snprintf(satelites, cSatelitesSize, "Sats: %d", gps.satellites.value());
     drawText(satelites, TFT_WHITE, 10, 200);
   }
@@ -125,7 +134,8 @@ void displayInfo()
   Serial.println();
 }
 
-void drawText(char *text, uint16_t color, int x, int y) {
+void drawText(char *text, uint16_t color, int x, int y)
+{
   tft.setCursor(x, y);
   tft.setTextColor(color);
   tft.setTextSize(2);
