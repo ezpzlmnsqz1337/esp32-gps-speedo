@@ -1,0 +1,5 @@
+﻿ColumnLimit: '120'
+BreakBeforeBraces: Allman
+PointerAlignment: Left
+TabWidth: '3'
+AllowShortFunctionsOnASingleLine: false

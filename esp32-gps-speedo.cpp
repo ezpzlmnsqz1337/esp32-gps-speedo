@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include <TFT_eSPI.h>
 #include <TinyGPS++.h>
 
@@ -134,7 +135,7 @@ void displayInfo()
   Serial.println();
 }
 
-void drawText(char *text, uint16_t color, int x, int y)
+void drawText(char* text, uint16_t color, int x, int y)
 {
   tft.setCursor(x, y);
   tft.setTextColor(color);
